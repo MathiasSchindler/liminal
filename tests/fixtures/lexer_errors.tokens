@@ -1,0 +1,15 @@
+KEYWORD 'begin' @1:1
+IDENT 'X' @2:3
+:= ':=' @2:5
+ERROR ''unterminated;' @2:8 (Unterminated string)
+IDENT 'Y' @3:3
+:= ':=' @3:5
+ERROR '@' @3:8 (Unexpected character)
+; ';' @3:9
+IDENT 'Z' @4:3
+:= ':=' @4:5
+ERROR '$' @4:8 (Invalid money literal)
+; ';' @4:9
+KEYWORD 'end' @5:1
+. '.' @5:4
+EOF '' @6:1

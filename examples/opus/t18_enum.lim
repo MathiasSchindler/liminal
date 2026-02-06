@@ -1,0 +1,15 @@
+program TestEnum;
+
+types
+  TColor = (Red, Green, Blue);
+
+var
+  C: TColor;
+begin
+  C := Green;
+  case C of
+    Red: WriteLn('Stop');
+    Green: WriteLn('Go');
+    Blue: WriteLn('Sky');
+  end;
+end.

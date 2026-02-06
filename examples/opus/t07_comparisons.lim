@@ -1,0 +1,12 @@
+program TestComparisons;
+var
+  X: Integer;
+begin
+  X := 10;
+  WriteLn(X = 10);
+  WriteLn(X <> 10);
+  WriteLn(X < 20);
+  WriteLn(X > 20);
+  WriteLn(X <= 10);
+  WriteLn(X >= 11);
+end.

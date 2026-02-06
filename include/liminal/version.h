@@ -1,0 +1,6 @@
+#ifndef LIMINAL_VERSION_H
+#define LIMINAL_VERSION_H
+
+#define LIMINAL_VERSION "0.1.0"
+
+#endif // LIMINAL_VERSION_H

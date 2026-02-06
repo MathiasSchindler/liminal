@@ -1,0 +1,4 @@
+program AskChain;
+begin
+  WriteLn(ask Oracle <- 'boom' else ask Oracle <- 'hi');
+end.

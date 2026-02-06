@@ -1,0 +1,4 @@
+program ConsultBasic;
+begin
+  WriteLn(consult Oracle from 'hi' else 'fb');
+end.

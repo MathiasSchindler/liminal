@@ -1,0 +1,10 @@
+program AddNumbers;
+var
+  A, B: Integer;
+begin
+  Write('First number: ');
+  ReadLn(A);
+  Write('Second number: ');
+  ReadLn(B);
+  WriteLn('Sum: ', A + B);
+end.

@@ -1,0 +1,5 @@
+program Budget;
+begin
+  // budgets not implemented yet; placeholder
+  WriteLn(ask Oracle <- 'hi' else 'fb');
+end.

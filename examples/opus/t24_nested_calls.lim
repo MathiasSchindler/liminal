@@ -1,0 +1,18 @@
+program TestNested;
+
+function Double(N: Integer): Integer;
+begin
+  Result := N * 2;
+end;
+
+function Triple(N: Integer): Integer;
+begin
+  Result := N * 3;
+end;
+
+var
+  X: Integer;
+begin
+  X := Double(Triple(5));
+  WriteLn(X);
+end.

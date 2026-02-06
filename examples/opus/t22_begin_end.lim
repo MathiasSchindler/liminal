@@ -1,0 +1,16 @@
+program TestBeginEnd;
+var
+  X: Integer;
+begin
+  X := 10;
+  if X > 5 then
+  begin
+    WriteLn('X is greater than 5');
+    WriteLn(X);
+  end
+  else
+  begin
+    WriteLn('X is 5 or less');
+    WriteLn(X);
+  end;
+end.

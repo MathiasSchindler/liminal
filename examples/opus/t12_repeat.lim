@@ -1,0 +1,10 @@
+program TestRepeat;
+var
+  N: Integer;
+begin
+  N := 1;
+  repeat
+    WriteLn(N);
+    N := N + 1;
+  until N > 5;
+end.

@@ -1,0 +1,4 @@
+program AskWithCost;
+begin
+  WriteLn(ask Oracle <- 'hi' else 'fallback' with cost);
+end.

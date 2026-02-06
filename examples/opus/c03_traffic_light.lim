@@ -1,0 +1,35 @@
+program TestTrafficLight;
+// Combines: enums, case, records, functions, for loop
+
+types
+  TLight = (Red, Yellow, Green);
+
+function LightName(L: TLight): String;
+begin
+  case L of
+    Red: Result := 'RED';
+    Yellow: Result := 'YELLOW';
+    Green: Result := 'GREEN';
+  end;
+end;
+
+function NextLight(L: TLight): TLight;
+begin
+  case L of
+    Red: Result := Green;
+    Green: Result := Yellow;
+    Yellow: Result := Red;
+  end;
+end;
+
+var
+  Current: TLight;
+  I: Integer;
+begin
+  Current := Red;
+  for I := 1 to 6 do
+  begin
+    WriteLn(f'Step {I}: {LightName(Current)}');
+    Current := NextLight(Current);
+  end;
+end.

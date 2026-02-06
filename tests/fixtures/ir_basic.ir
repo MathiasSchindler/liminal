@@ -1,0 +1,8 @@
+func Basic
+  t0 = CONST_INT 1
+  t1 = CONST_INT 2
+  t2 = CONST_INT 3
+  t3 = MUL t1, t2
+  t4 = ADD t0, t3
+  X = t4
+

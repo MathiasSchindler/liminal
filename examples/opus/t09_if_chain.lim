@@ -1,0 +1,12 @@
+program TestIfChain;
+var
+  X: Integer;
+begin
+  X := 0;
+  if X > 0 then
+    WriteLn('Positive')
+  else if X < 0 then
+    WriteLn('Negative')
+  else
+    WriteLn('Zero');
+end.

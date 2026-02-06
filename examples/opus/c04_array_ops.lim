@@ -1,0 +1,47 @@
+program TestArrayOps;
+// Combines: arrays, for-in loop, for loop, functions, local vars
+
+function Sum(Nums: array of Integer): Integer;
+var
+  Total, N: Integer;
+begin
+  Total := 0;
+  for N in Nums do
+    Total := Total + N;
+  Result := Total;
+end;
+
+function Max(Nums: array of Integer): Integer;
+var
+  Best, N: Integer;
+begin
+  Best := Nums[0];
+  for N in Nums do
+  begin
+    if N > Best then
+      Best := N;
+  end;
+  Result := Best;
+end;
+
+function Min(Nums: array of Integer): Integer;
+var
+  Best, N: Integer;
+begin
+  Best := Nums[0];
+  for N in Nums do
+  begin
+    if N < Best then
+      Best := N;
+  end;
+  Result := Best;
+end;
+
+var
+  Data: array of Integer;
+begin
+  Data := [7, 2, 9, 4, 1, 8, 3];
+  WriteLn(f'Sum: {Sum(Data)}');
+  WriteLn(f'Max: {Max(Data)}');
+  WriteLn(f'Min: {Min(Data)}');
+end.

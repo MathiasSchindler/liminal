@@ -1,0 +1,6 @@
+program AskUnwrap;
+var R: String;
+begin
+  R := (ask Oracle <- 'boom' else 'fb').UnwrapOr('zzz');
+  WriteLn(R);
+end.

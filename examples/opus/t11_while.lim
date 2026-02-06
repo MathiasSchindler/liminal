@@ -1,0 +1,11 @@
+program TestWhile;
+var
+  N: Integer;
+begin
+  N := 1;
+  while N <= 5 do
+  begin
+    WriteLn(N);
+    N := N + 1;
+  end;
+end.

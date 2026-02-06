@@ -1,0 +1,33 @@
+program TestFibonacci;
+// Combines: functions, local vars, while loop, arithmetic, comparison
+
+function Fib(N: Integer): Integer;
+var
+  A, B, Temp, I: Integer;
+begin
+  if N <= 0 then
+    Result := 0
+  else if N = 1 then
+    Result := 1
+  else
+  begin
+    A := 0;
+    B := 1;
+    I := 2;
+    while I <= N do
+    begin
+      Temp := A + B;
+      A := B;
+      B := Temp;
+      I := I + 1;
+    end;
+    Result := B;
+  end;
+end;
+
+var
+  I: Integer;
+begin
+  for I := 0 to 10 do
+    WriteLn(f'Fib({I}) = {Fib(I)}');
+end.

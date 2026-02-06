@@ -1,0 +1,16 @@
+program Mixed;
+
+types
+  schema TPerson
+    Name: String;
+    Age: Integer;
+  end;
+
+var
+  Sum: Integer;
+
+begin
+  Sum := 5 + 7;
+  WriteLn(Sum);
+  WriteLn(ask Oracle <- '{"Name":"Bob","Age":30}' into TPerson else 'fallback');
+end.

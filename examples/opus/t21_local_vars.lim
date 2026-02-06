@@ -1,0 +1,15 @@
+program TestLocalVars;
+
+function SumRange(Lo, Hi: Integer): Integer;
+var
+  I, Total: Integer;
+begin
+  Total := 0;
+  for I := Lo to Hi do
+    Total := Total + I;
+  Result := Total;
+end;
+
+begin
+  WriteLn(SumRange(1, 10));
+end.

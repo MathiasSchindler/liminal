@@ -1,0 +1,9 @@
+program P;
+
+types
+  schema Person
+    Name: String[1..100] describe 'full name';
+    Age: Integer[0..120];
+  end;
+
+begin end.

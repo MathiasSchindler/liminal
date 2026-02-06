@@ -1,0 +1,24 @@
+program TestConstraints;
+// Combines: constrained types, schema, records, validation
+
+types
+  TRating = Integer[1..5];
+
+  schema TReview
+    Title: String[1..100]
+      describe 'Review title';
+    Rating: Integer[1..5]
+      describe 'Star rating from 1 to 5';
+    Recommend: Boolean
+      describe 'Would recommend';
+  end;
+
+var
+  R: TRating;
+begin
+  R := 3;
+  WriteLn(f'Rating: {R}');
+
+  R := 5;
+  WriteLn(f'Rating: {R}');
+end.

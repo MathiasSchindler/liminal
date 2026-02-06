@@ -1,0 +1,4 @@
+program AskBasic;
+begin
+  WriteLn(ask Oracle <- 'hi' else 'fallback');
+end.

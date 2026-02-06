@@ -1,0 +1,37 @@
+program TestGCD;
+// Combines: mutual recursion, multiple functions, comparisons, f-strings
+
+function GCD(A, B: Integer): Integer;
+begin
+  if B = 0 then
+    Result := A
+  else
+    Result := GCD(B, A mod B);
+end;
+
+function LCM(A, B: Integer): Integer;
+begin
+  Result := (A * B) div GCD(A, B);
+end;
+
+function AreCoprime(A, B: Integer): Boolean;
+begin
+  Result := GCD(A, B) = 1;
+end;
+
+var
+  I, J: Integer;
+begin
+  WriteLn(f'GCD(12, 8) = {GCD(12, 8)}');
+  WriteLn(f'GCD(100, 75) = {GCD(100, 75)}');
+  WriteLn(f'LCM(4, 6) = {LCM(4, 6)}');
+  WriteLn(f'LCM(12, 18) = {LCM(12, 18)}');
+
+  // Print coprime pairs up to 6
+  for I := 2 to 6 do
+    for J := 2 to 6 do
+    begin
+      if AreCoprime(I, J) then
+        WriteLn(f'{I} and {J} are coprime');
+    end;
+end.

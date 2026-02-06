@@ -1,0 +1,4 @@
+program PAsk;
+begin
+  WriteLn(ask Oracle <- 'hi' else 'fb');
+end.

@@ -1,0 +1,11 @@
+Program PAsk
+Body:
+  Block
+    ExprStmt
+      Call
+        Ident(WriteLn)
+        Ask
+          Ident(Oracle)
+          Literal('hi')
+          Else:
+            Literal('fb')

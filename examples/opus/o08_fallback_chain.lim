@@ -1,0 +1,18 @@
+program TestFallbackChain;
+{ Fallback chain: if first oracle fails, try second, then static default.
+  This is the defensive pattern from spec section 9.4. }
+
+oracles
+  Smart: TextOracle = 'mock' via Mock;
+  Fast: TextOracle = 'mock' via Mock;
+
+function GetAnswer(Query: String): String;
+begin
+  Result := ask Smart <- Query
+    else ask Fast <- Query
+    else 'I could not generate a response.';
+end;
+
+begin
+  WriteLn(GetAnswer('What is the meaning of life?'));
+end.

@@ -1,0 +1,4 @@
+program ConsultRetry;
+begin
+  WriteLn(consult Oracle from 'hi' with attempts: 2 else 'fb');
+end.

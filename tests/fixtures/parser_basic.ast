@@ -1,0 +1,11 @@
+Program Hello
+Vars:
+Body:
+  Block
+    Assign
+      Ident(X)
+      Binary(23)
+        Literal(1)
+        Binary(25)
+          Literal(2)
+          Literal(3)

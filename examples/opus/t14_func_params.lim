@@ -1,0 +1,16 @@
+program TestFuncParams;
+
+function Add(A, B: Integer): Integer;
+begin
+  Result := A + B;
+end;
+
+function Multiply(A: Integer; B: Integer): Integer;
+begin
+  Result := A * B;
+end;
+
+begin
+  WriteLn(Add(3, 4));
+  WriteLn(Multiply(5, 6));
+end.

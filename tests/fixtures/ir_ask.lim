@@ -1,0 +1,6 @@
+program PAsk;
+var S: String;
+begin
+  S := (ask Oracle <- 'hi' else 'fb').UnwrapOr('zzz');
+  WriteLn(S);
+end.

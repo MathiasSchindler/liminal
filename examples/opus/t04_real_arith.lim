@@ -1,0 +1,11 @@
+program TestRealArith;
+var
+  X, Y: Real;
+begin
+  X := 3.14;
+  Y := 2.0;
+  WriteLn(X + Y);
+  WriteLn(X - Y);
+  WriteLn(X * Y);
+  WriteLn(X / Y);
+end.

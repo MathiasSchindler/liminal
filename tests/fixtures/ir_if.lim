@@ -1,0 +1,10 @@
+program IfProg;
+var
+  X: Integer;
+begin
+  X := 1;
+  if X <> 0 then
+    X := X + 1
+  else
+    X := X - 1;
+end.

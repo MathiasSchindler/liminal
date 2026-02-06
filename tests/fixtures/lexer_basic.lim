@@ -1,0 +1,13 @@
+program Example;
+
+uses System, Files;
+
+var
+  X: Integer;
+
+begin
+  X := 42;
+  WriteLn('Hello, World!');
+  // Comment line
+  (* Block comment *)
+end.

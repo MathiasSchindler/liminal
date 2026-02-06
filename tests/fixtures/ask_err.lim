@@ -1,0 +1,4 @@
+program AskErr;
+begin
+  WriteLn(ask Oracle <- 'boom');
+end.

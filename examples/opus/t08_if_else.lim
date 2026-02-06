@@ -1,0 +1,10 @@
+program TestIfElse;
+var
+  X: Integer;
+begin
+  X := 42;
+  if X > 0 then
+    WriteLn('Positive')
+  else
+    WriteLn('Non-positive');
+end.

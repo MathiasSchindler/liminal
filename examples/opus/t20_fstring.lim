@@ -1,0 +1,9 @@
+program TestFString;
+var
+  Name: String;
+  Age: Integer;
+begin
+  Name := 'Liminal';
+  Age := 1;
+  WriteLn(f'Hello, {Name}! You are {Age} years old.');
+end.

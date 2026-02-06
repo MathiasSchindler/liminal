@@ -1,0 +1,30 @@
+program TestAskInto;
+{ Structured extraction: ask into a schema type. 
+  This exercises the flat JSON validator from M12. }
+
+oracles
+  Bot: TextOracle = 'mock' via Mock;
+
+types
+  schema TSentiment
+    Label: String[1..20]
+      describe 'Sentiment label: positive, negative, or neutral';
+    Score: Integer[1..10]
+      describe 'Confidence score from 1 (low) to 10 (high)';
+  end;
+
+var
+  R: TOracleResult<TSentiment>;
+begin
+  R := ask Bot <- 'The product is amazing and I love it!' into TSentiment;
+
+  case R of
+    Ok(S):
+    begin
+      WriteLn(f'Sentiment: {S.Label}');
+      WriteLn(f'Confidence: {S.Score}');
+    end;
+    Err(F):
+      WriteLn(f'Extraction failed: {F.Message}');
+  end;
+end.

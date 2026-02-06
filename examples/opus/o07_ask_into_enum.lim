@@ -1,0 +1,36 @@
+program TestAskIntoEnum;
+{ Structured extraction with an enum field — tests schema generation
+  and JSON validation for enums. }
+
+oracles
+  Bot: TextOracle = 'mock' via Mock;
+
+types
+  schema TClassification
+    Category: (Bug, Feature, Question, Other)
+      describe 'The type of issue reported';
+    Priority: Integer[1..5]
+      describe 'Priority from 1 (low) to 5 (critical)';
+    Summary: String[1..200]
+      describe 'One-sentence summary of the issue';
+  end;
+
+var
+  R: TOracleResult<TClassification>;
+  Ticket: String;
+begin
+  Ticket := 'The login page crashes when I enter a long password. This is urgent.';
+
+  R := ask Bot <- f'Classify this support ticket: {Ticket}' into TClassification;
+
+  case R of
+    Ok(C):
+    begin
+      WriteLn(f'Category: {C.Category}');
+      WriteLn(f'Priority: {C.Priority}');
+      WriteLn(f'Summary: {C.Summary}');
+    end;
+    Err(F):
+      WriteLn(f'Classification failed: {F.Message}');
+  end;
+end.

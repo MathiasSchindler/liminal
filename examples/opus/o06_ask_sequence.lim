@@ -1,0 +1,33 @@
+program TestAskSequence;
+{ Multiple oracle calls interleaved with deterministic logic.
+  This tests that the deterministic/probabilistic boundary works correctly. }
+
+oracles
+  Bot: TextOracle = 'mock' via Mock;
+
+function BuildPrompt(Topic: String; Detail: String): String;
+begin
+  Result := f'Explain {Topic} with focus on {Detail}. Be brief.';
+end;
+
+var
+  Topics: array of String;
+  Topic: String;
+  Answer: String;
+  Count: Integer;
+begin
+  Topics := ['gravity', 'photosynthesis', 'recursion'];
+  Count := 0;
+
+  for Topic in Topics do
+  begin
+    Answer := ask Bot <- BuildPrompt(Topic, 'simplicity')
+      else f'Could not explain {Topic}';
+    WriteLn(f'--- {Topic} ---');
+    WriteLn(Answer);
+    WriteLn;
+    Count := Count + 1;
+  end;
+
+  WriteLn(f'Processed {Count} topics.');
+end.

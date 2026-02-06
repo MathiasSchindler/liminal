@@ -1,0 +1,10 @@
+program T;
+var I: Integer;
+begin
+  I := 2;
+  while I <= 5 do
+  begin
+    WriteLn(f'I={I}');
+    I := I + 1;
+  end;
+end.

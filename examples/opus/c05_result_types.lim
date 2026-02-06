@@ -1,0 +1,32 @@
+program TestResultTypes;
+// Combines: result types (!T), Ok/Err, case matching, functions
+
+function SafeDivide(A, B: Integer): !Integer;
+begin
+  if B = 0 then
+    Result := Err('Division by zero')
+  else
+    Result := Ok(A div B);
+end;
+
+var
+  R: !Integer;
+begin
+  R := SafeDivide(10, 3);
+  case R of
+    Ok(Value): WriteLn(f'10 / 3 = {Value}');
+    Err(Msg): WriteLn(f'Error: {Msg}');
+  end;
+
+  R := SafeDivide(10, 0);
+  case R of
+    Ok(Value): WriteLn(f'10 / 0 = {Value}');
+    Err(Msg): WriteLn(f'Error: {Msg}');
+  end;
+
+  R := SafeDivide(100, 7);
+  case R of
+    Ok(Value): WriteLn(f'100 / 7 = {Value}');
+    Err(Msg): WriteLn(f'Error: {Msg}');
+  end;
+end.

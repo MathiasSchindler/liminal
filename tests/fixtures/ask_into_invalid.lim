@@ -1,0 +1,11 @@
+program AskIntoInvalid;
+
+types
+  schema TPerson
+    Name: String;
+    Age: Integer;
+  end;
+
+begin
+  WriteLn(ask Oracle <- '{"Name":123,"Age":"x"}' into TPerson else 'fallback');
+end.

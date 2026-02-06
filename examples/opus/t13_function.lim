@@ -1,0 +1,10 @@
+program TestFunction;
+
+function Double(N: Integer): Integer;
+begin
+  Result := N * 2;
+end;
+
+begin
+  WriteLn(Double(21));
+end.

@@ -1,0 +1,15 @@
+program TestAskResult;
+// Ask returning a result, handled with case.
+
+oracles
+  Bot: TextOracle = 'mock' via Mock;
+
+var
+  R: TOracleResult<String>;
+begin
+  R := ask Bot <- 'Tell me a joke.';
+  case R of
+    Ok(Response): WriteLn(f'Bot says: {Response}');
+    Err(F): WriteLn(f'Oracle failed: {F.Message}');
+  end;
+end.

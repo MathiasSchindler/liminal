@@ -1,0 +1,19 @@
+func IfProg
+  t0 = CONST_INT 1
+  X = t0
+  t1 = LOAD_VAR X
+  t2 = CONST_INT 0
+  t3 = NEQ t1, t2
+  JUMP_IF_FALSE t3, L0
+  t4 = LOAD_VAR X
+  t5 = CONST_INT 1
+  t6 = ADD t4, t5
+  X = t6
+  JUMP L1
+L0:
+  t7 = LOAD_VAR X
+  t8 = CONST_INT 1
+  t9 = SUB t7, t8
+  X = t9
+L1:
+

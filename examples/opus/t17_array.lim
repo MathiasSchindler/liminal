@@ -1,0 +1,8 @@
+program TestArray;
+var
+  Items: array of Integer;
+begin
+  Items := [10, 20, 30, 40, 50];
+  WriteLn(Items[0]);
+  WriteLn(Items[4]);
+end.

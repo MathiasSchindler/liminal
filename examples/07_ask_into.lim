@@ -1,0 +1,11 @@
+program AskInto;
+
+types
+  schema TPerson
+    Name: String;
+    Age: Integer;
+  end;
+
+begin
+  WriteLn(ask Oracle <- '{"Name":"Bob","Age":30}' into TPerson else 'fallback');
+end.

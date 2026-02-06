@@ -1,0 +1,13 @@
+program TestAskSimple;
+{ The simplest oracle program: ask with else fallback.
+  Uses mock provider so no real LLM needed. }
+
+oracles
+  Bot: TextOracle = 'mock' via Mock;
+
+var
+  Answer: String;
+begin
+  Answer := ask Bot <- 'What is the capital of France?' else 'I do not know';
+  WriteLn(Answer);
+end.

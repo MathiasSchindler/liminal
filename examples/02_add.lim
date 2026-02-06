@@ -1,0 +1,9 @@
+program Add;
+var A, B: Integer;
+begin
+  Write('First: ');
+  ReadLn(A);
+  Write('Second: ');
+  ReadLn(B);
+  WriteLn('Sum: ', A + B);
+end.

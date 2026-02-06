@@ -1,0 +1,13 @@
+program TestBooleans;
+var
+  A, B: Boolean;
+begin
+  A := True;
+  B := False;
+  WriteLn(A and B);
+  WriteLn(A or B);
+  WriteLn(not A);
+  WriteLn(not B);
+  WriteLn(A = B);
+  WriteLn(A <> B);
+end.

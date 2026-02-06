@@ -1,0 +1,4 @@
+program AskOk;
+begin
+  WriteLn(ask Oracle <- 'hi');
+end.

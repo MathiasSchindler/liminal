@@ -1,0 +1,11 @@
+program ConsultRetry;
+
+types
+  schema TPerson
+    Name: String;
+    Age: Integer;
+  end;
+
+begin
+  WriteLn(consult Oracle from '{"Name":123,"Age":"x"}' into TPerson with attempts: 2 on failure retry with hint 'Name string, Age int'; end);
+end.

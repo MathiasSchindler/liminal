@@ -1,0 +1,16 @@
+program TestRecord;
+
+types
+  TPoint = record
+    X: Integer;
+    Y: Integer;
+  end;
+
+var
+  P: TPoint;
+begin
+  P.X := 10;
+  P.Y := 20;
+  WriteLn(P.X);
+  WriteLn(P.Y);
+end.

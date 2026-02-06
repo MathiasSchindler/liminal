@@ -1,0 +1,9 @@
+program TestOptional;
+var
+  MaybeVal: ?Integer;
+begin
+  MaybeVal := 42;
+  WriteLn(MaybeVal);
+  MaybeVal := Nothing;
+  WriteLn(MaybeVal);
+end.

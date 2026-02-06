@@ -1,0 +1,35 @@
+program TestPersonGreet;
+// Combines: records, functions, string concat, f-strings
+
+types
+  TPerson = record
+    Name: String;
+    Age: Integer;
+  end;
+
+function Greet(P: TPerson): String;
+begin
+  if P.Age < 18 then
+    Result := f'Hey {P.Name}!'
+  else
+    Result := f'Good day, {P.Name}.';
+end;
+
+function IsAdult(P: TPerson): Boolean;
+begin
+  Result := P.Age >= 18;
+end;
+
+var
+  Alice, Bob: TPerson;
+begin
+  Alice.Name := 'Alice';
+  Alice.Age := 30;
+  Bob.Name := 'Bob';
+  Bob.Age := 12;
+
+  WriteLn(Greet(Alice));
+  WriteLn(Greet(Bob));
+  WriteLn(f'Alice is adult: {IsAdult(Alice)}');
+  WriteLn(f'Bob is adult: {IsAdult(Bob)}');
+end.

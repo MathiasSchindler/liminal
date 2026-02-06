@@ -1,0 +1,15 @@
+program TestCase;
+var
+  Day: Integer;
+begin
+  Day := 3;
+  case Day of
+    1: WriteLn('Monday');
+    2: WriteLn('Tuesday');
+    3: WriteLn('Wednesday');
+    4: WriteLn('Thursday');
+    5: WriteLn('Friday');
+  else
+    WriteLn('Weekend');
+  end;
+end.

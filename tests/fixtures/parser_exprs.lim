@@ -1,0 +1,7 @@
+program Exprs;
+begin
+  A := (1, 2, 3);
+  B := [1, 2, 3];
+  C := {foo: 1, bar: 2};
+  D := ask Smart <- 'hi' else 'bye';
+end.

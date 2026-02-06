@@ -1,0 +1,6 @@
+program Basic;
+var
+  X: Integer;
+begin
+  X := 1 + 2 * 3;
+end.

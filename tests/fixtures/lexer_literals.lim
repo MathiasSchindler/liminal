@@ -1,0 +1,22 @@
+var
+  A: Integer;
+  B: Real;
+  C: String;
+  D: Bytes;
+  E: Char;
+  F: String;
+  G: Integer;
+  H: Real;
+  I: String;
+
+begin
+  A := 123;
+  B := 3.14;
+  C := 'hello';
+  D := b'\x01\x02';
+  E := 'x';
+  F := f'hi {name}';
+  G := 10ms;
+  H := 5h;
+  I := $12.50;
+end.

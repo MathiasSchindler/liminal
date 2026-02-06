@@ -1,0 +1,60 @@
+program TestDataTable;
+// Combines: records, arrays, for-in, functions, if/else, f-strings
+
+types
+  TStudent = record
+    Name: String;
+    Score: Integer;
+  end;
+
+function Grade(Score: Integer): String;
+begin
+  if Score >= 90 then
+    Result := 'A'
+  else if Score >= 80 then
+    Result := 'B'
+  else if Score >= 70 then
+    Result := 'C'
+  else if Score >= 60 then
+    Result := 'D'
+  else
+    Result := 'F';
+end;
+
+function Average(Students: array of TStudent): Integer;
+var
+  Total, Count: Integer;
+  S: TStudent;
+begin
+  Total := 0;
+  Count := 0;
+  for S in Students do
+  begin
+    Total := Total + S.Score;
+    Count := Count + 1;
+  end;
+  if Count = 0 then
+    Result := 0
+  else
+    Result := Total div Count;
+end;
+
+var
+  Students: array of TStudent;
+  S: TStudent;
+  Avg: Integer;
+begin
+  Students := [
+    {Name: 'Alice', Score: 95},
+    {Name: 'Bob', Score: 72},
+    {Name: 'Carol', Score: 88},
+    {Name: 'Dave', Score: 61},
+    {Name: 'Eve', Score: 43}
+  ];
+
+  for S in Students do
+    WriteLn(f'{S.Name}: {S.Score} ({Grade(S.Score)})');
+
+  Avg := Average(Students);
+  WriteLn(f'Class average: {Avg} ({Grade(Avg)})');
+end.

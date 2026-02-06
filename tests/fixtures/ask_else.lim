@@ -1,0 +1,4 @@
+program AskElse;
+begin
+  WriteLn(ask Oracle <- 'boom' else 'fallback');
+end.

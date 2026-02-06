@@ -1,0 +1,23 @@
+program TestAskCost;
+// Ask with cost tracking via tuple destructuring.
+
+oracles
+  Bot: TextOracle = 'mock' via Mock;
+
+var
+  R: TOracleResult<String>;
+  Cost: TCost;
+begin
+  (R, Cost) := ask Bot <- 'What is 2 + 2?' with cost;
+
+  case R of
+    Ok(Response):
+    begin
+      WriteLn(f'Answer: {Response}');
+      WriteLn(f'Input tokens: {Cost.InputTokens}');
+      WriteLn(f'Output tokens: {Cost.OutputTokens}');
+    end;
+    Err(F):
+      WriteLn(f'Failed: {F.Message}');
+  end;
+end.

@@ -1,0 +1,7 @@
+program FileIO;
+var Content: String;
+begin
+  WriteFile('out.txt', 'ok');
+  Content := ReadFile('out.txt');
+  WriteLn(Content);
+end.

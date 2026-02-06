@@ -1,0 +1,4 @@
+program TestHello;
+begin
+  WriteLn('Hello, World!');
+end.

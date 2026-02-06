@@ -1,0 +1,13 @@
+program TestIntArith;
+var
+  A, B: Integer;
+begin
+  A := 17;
+  B := 5;
+  WriteLn(A + B);
+  WriteLn(A - B);
+  WriteLn(A * B);
+  WriteLn(A div B);
+  WriteLn(A mod B);
+  WriteLn(-A);
+end.

@@ -1,0 +1,4 @@
+program ConsultFallback;
+begin
+  WriteLn(consult Oracle from 'hi' with attempts: 1 on failure yield 'fb'; end);
+end.

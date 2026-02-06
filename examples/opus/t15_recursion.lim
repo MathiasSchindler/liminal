@@ -1,0 +1,15 @@
+program TestRecursion;
+
+function Factorial(N: Integer): Integer;
+begin
+  if N <= 1 then
+    Result := 1
+  else
+    Result := N * Factorial(N - 1);
+end;
+
+begin
+  WriteLn(Factorial(1));
+  WriteLn(Factorial(5));
+  WriteLn(Factorial(10));
+end.

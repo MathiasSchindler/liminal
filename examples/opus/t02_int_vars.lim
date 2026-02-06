@@ -1,0 +1,11 @@
+program TestIntVars;
+var
+  X: Integer;
+  Y: Integer;
+  Z: Integer;
+begin
+  X := 42;
+  Y := 17;
+  Z := X + Y;
+  WriteLn(Z);
+end.

@@ -1,0 +1,12 @@
+func PAsk
+  t0 = CONST_STRING "hi"
+  t1 = CONST_STRING "fb"
+  t2 = ASK t0, fallback t1 oracle Oracle
+  t3 = CONST_STRING "zzz"
+  t4 = RESULT_UNWRAP t2, t3
+  S = t4
+  t5 = LOAD_VAR S
+  PRINT t5
+  PRINTLN
+  t6 = CONST_INT 0
+

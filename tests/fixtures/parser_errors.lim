@@ -1,0 +1,4 @@
+program Broken;
+begin
+  X := ;
+end.

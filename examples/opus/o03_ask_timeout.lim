@@ -1,0 +1,14 @@
+program TestAskTimeout;
+// Ask with a timeout clause and fallback.
+
+oracles
+  Bot: TextOracle = 'mock' via Mock;
+
+var
+  Answer: String;
+begin
+  Answer := ask Bot <- 'Summarize the history of computing.'
+    timeout 5s
+    else 'Request timed out, sorry.';
+  WriteLn(Answer);
+end.

@@ -1,0 +1,15 @@
+program TestWriteLn;
+var
+  X: Integer;
+  R: Real;
+  B: Boolean;
+begin
+  X := 42;
+  R := 3.14;
+  B := True;
+  WriteLn('Integer: ', X);
+  WriteLn('Real: ', R);
+  WriteLn('Boolean: ', B);
+  Write('No newline');
+  WriteLn(' then newline');
+end.

@@ -1,0 +1,29 @@
+Program Exprs
+Body:
+  Block
+    Assign
+      Ident(A)
+      Tuple
+        Literal(1)
+        Literal(2)
+        Literal(3)
+    Assign
+      Ident(B)
+      Array
+        Literal(1)
+        Literal(2)
+        Literal(3)
+    Assign
+      Ident(C)
+      Record
+        Field foo:
+          Literal(1)
+        Field bar:
+          Literal(2)
+    Assign
+      Ident(D)
+      Ask
+        Ident(Smart)
+        Literal('hi')
+        Else:
+          Literal('bye')
