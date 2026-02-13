@@ -39,6 +39,91 @@ add_test(NAME examples_mixed COMMAND bash -lc "LIMINAL_ORACLE_PROVIDER=mock LIMI
 set_tests_properties(examples_mixed PROPERTIES TIMEOUT 5)
 add_test(NAME examples_consult_retry COMMAND bash -lc "LIMINAL_ORACLE_PROVIDER=mock LIMINAL_ORACLE_MODE=replay LIMINAL_ORACLE_RECORDING=${PROJECT_SOURCE_DIR}/tests/recordings/examples.jsonl ${PROJECT_BINARY_DIR}/src/liminal run ${PROJECT_SOURCE_DIR}/examples/09_consult_retry.lim")
 set_tests_properties(examples_consult_retry PROPERTIES TIMEOUT 5)
+
+option(ENABLE_OPUS_SMOKE_TESTS "Enable Opus smoke tests (t* and c* only)" OFF)
+option(ENABLE_OPUS_BENCHMARK_TESTS "Enable Opus benchmark-focused tests" OFF)
+
+if(ENABLE_OPUS_SMOKE_TESTS)
+  # Opus smoke (deterministic focus): atomic t* and combined c* only.
+  # Advanced oracle programs o* are intentionally excluded for now.
+  set(OPUS_ATOMIC_PROGRAMS
+    t01_hello
+    t02_int_vars
+    t03_int_arith
+    t04_real_arith
+    t05_booleans
+    t06_strings
+    t07_comparisons
+    t08_if_else
+    t09_if_chain
+    t10_for_loop
+    t11_while
+    t12_repeat
+    t13_function
+    t14_func_params
+    t15_recursion
+    t16_record
+    t17_array
+    t18_enum
+    t19_case_int
+    t20_fstring
+    t21_local_vars
+    t22_begin_end
+    t23_writeln
+    t24_nested_calls
+    t25_optional
+    t26_file_roundtrip_guard
+    t27_record_patch
+    t28_schema_validation_path
+  )
+
+  foreach(opus_prog IN LISTS OPUS_ATOMIC_PROGRAMS)
+    add_test(
+      NAME opus_${opus_prog}
+      COMMAND ${PROJECT_BINARY_DIR}/src/liminal run ${PROJECT_SOURCE_DIR}/examples/opus/${opus_prog}.lim
+    )
+    set_tests_properties(opus_${opus_prog} PROPERTIES TIMEOUT 5 LABELS "opus;opus_atomic")
+  endforeach()
+
+  set(OPUS_COMBINED_PROGRAMS
+    c01_fibonacci
+    c02_person_greet
+    c03_traffic_light
+    c04_array_ops
+    c05_result_types
+    c06_data_table
+    c07_gcd_lcm
+    c08_constraints
+    c09_invoice_batch
+    c10_shift_alerting
+    c11_ticket_triage_extract
+  )
+
+  foreach(opus_prog IN LISTS OPUS_COMBINED_PROGRAMS)
+    add_test(
+      NAME opus_${opus_prog}
+      COMMAND ${PROJECT_BINARY_DIR}/src/liminal run ${PROJECT_SOURCE_DIR}/examples/opus/${opus_prog}.lim
+    )
+    set_tests_properties(opus_${opus_prog} PROPERTIES TIMEOUT 5 LABELS "opus;opus_combined")
+  endforeach()
+endif()
+
+if(ENABLE_OPUS_BENCHMARK_TESTS)
+  set(OPUS_BENCH_PROGRAMS
+    t29_bench_int_hotloop
+    t30_bench_function_calls
+    c12_bench_event_aggregation
+    c13_bench_rule_routing
+  )
+
+  foreach(opus_prog IN LISTS OPUS_BENCH_PROGRAMS)
+    add_test(
+      NAME opus_bench_${opus_prog}
+      COMMAND ${PROJECT_BINARY_DIR}/src/liminal run ${PROJECT_SOURCE_DIR}/examples/opus/${opus_prog}.lim
+    )
+    set_tests_properties(opus_bench_${opus_prog} PROPERTIES TIMEOUT 20 LABELS "opus_bench")
+  endforeach()
+endif()
 add_test(NAME liminal_lexer_tests COMMAND liminal_lexer_tests)
 
 add_executable(liminal_parser_tests

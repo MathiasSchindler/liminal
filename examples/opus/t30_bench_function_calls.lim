@@ -1,0 +1,19 @@
+program BenchFunctionCalls;
+// Benchmark focus: function-call overhead and arithmetic mixing
+
+function Mix(A, B: Integer): Integer;
+begin
+  Result := ((A * 17) + (B * 23) + (A mod 7)) mod 1000003;
+end;
+
+var
+  I: Integer;
+  Acc: Integer;
+begin
+  Acc := 1;
+
+  for I := 1 to 300000 do
+    Acc := Mix(Acc, I);
+
+  WriteLn(f'bench-calls acc={Acc}');
+end.

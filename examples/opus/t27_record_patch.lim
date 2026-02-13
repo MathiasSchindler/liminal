@@ -1,0 +1,17 @@
+program TestRecordPatch;
+
+types
+  TUser = record
+    Name: String;
+    Active: Boolean;
+  end;
+
+var
+  U: TUser;
+begin
+  U := {Name: 'Maya', Active: False};
+  if not U.Active then
+    U.Active := True;
+
+  WriteLn(f'{U.Name} active={U.Active}');
+end.

@@ -20,7 +20,8 @@
 | 16 | Streaming Responses | ⏳ Not Started |
 | 17 | Standard Library Surface | ⏳ Not Started |
 | 18 | End-to-End Example Programs | ⏳ Not Started |
-| 19 | Packaging and Distribution | ⏳ Not Started |
+| 19 | Ahead-of-Time Native Compilation | ⏳ Not Started |
+| 20 | Packaging and Distribution | ⏳ Not Started |
 
 This document defines sequential milestones to implement the Liminal compiler in C. Each milestone must be fully implemented, tested, and documented before the next begins. Early tests use local Ollama, behind an abstraction layer so providers can be swapped later.
 
@@ -386,7 +387,29 @@ _Limits_: no timeouts or monetary budgets yet; failure cases not typed (`TOracle
 
 ---
 
-## Milestone 19: Packaging and Distribution
+## Milestone 19: Ahead-of-Time Native Compilation
+
+**Goal**: Compile `.lim` programs into native binaries that run without the `liminal` CLI at runtime.
+
+**Deliverables**:
+- `liminal compile <input.lim> -o <output>` command.
+- Native code generation backend (or C backend + toolchain invocation) for deterministic subset.
+- Runtime embedding/linking strategy for required language runtime pieces.
+- Startup entrypoint generation and argument forwarding.
+- Diagnostics for unsupported probabilistic/oracle features in AOT mode.
+
+**Tests**:
+- Compile and run deterministic fixture programs as standalone binaries.
+- Snapshot tests for compile diagnostics and unsupported-feature errors.
+- Cross-build smoke tests on Linux (debug/release).
+
+**Docs**:
+- AOT compilation guide and limitations.
+- Runtime dependency expectations for produced binaries.
+
+---
+
+## Milestone 20: Packaging and Distribution
 
 **Goal**: Prepare a minimal distribution with docs and tests.
 

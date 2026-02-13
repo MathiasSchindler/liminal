@@ -1,0 +1,22 @@
+program BenchIntHotloop;
+// Benchmark focus: integer arithmetic + branch in a tight loop
+
+var
+  I: Integer;
+  X: Integer;
+  Checksum: Integer;
+begin
+  X := 7;
+  Checksum := 0;
+
+  for I := 1 to 400000 do
+  begin
+    X := (X * 31 + I) mod 1000003;
+    if (X mod 2) = 0 then
+      Checksum := Checksum + (X mod 97)
+    else
+      Checksum := Checksum + (X mod 89);
+  end;
+
+  WriteLn(f'bench-int checksum={Checksum} final={X}');
+end.

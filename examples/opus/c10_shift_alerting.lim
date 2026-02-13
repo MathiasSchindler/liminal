@@ -1,0 +1,31 @@
+program ShiftAlerting;
+
+types
+  TSeverity = (Low, Medium, High);
+  TEvent = record
+    Service: String;
+    Severity: TSeverity;
+  end;
+
+function ActionFor(E: TEvent): String;
+begin
+  case E.Severity of
+    Low: Result := 'log';
+    Medium: Result := 'notify';
+    High: Result := 'page';
+  end;
+end;
+
+var
+  Events: array of TEvent;
+  E: TEvent;
+begin
+  Events := [
+    {Service: 'billing', Severity: Low},
+    {Service: 'api', Severity: High},
+    {Service: 'search', Severity: Medium}
+  ];
+
+  for E in Events do
+    WriteLn(f'{E.Service}: {ActionFor(E)}');
+end.

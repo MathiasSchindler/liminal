@@ -37,6 +37,9 @@ subset.
 | t23_writeln | Write vs WriteLn, multi-arg | multiple lines |
 | t24_nested_calls | `Double(Triple(5))` | `30` |
 | t25_optional | `?Integer`, `Nothing` | `42` then value for Nothing |
+| t26_file_roundtrip_guard | ReadFile/WriteFile roundtrip guard | `OK` |
+| t27_record_patch | Record mutation with boolean guard | `Maya active=True` |
+| t28_schema_validation_path | `ask ... into` success+fallback path | two lines, second is `fallback` |
 
 ### Cross-checking with Free Pascal
 
@@ -73,6 +76,9 @@ the bug is in how subsystems interact.
 | c06_data_table | records, arrays, for-in, functions | Five students with grades, class average |
 | c07_gcd_lcm | recursion, mod, multiple functions | `GCD(12,8) = 4` / coprime pairs |
 | c08_constraints | constrained types, schema decl | `Rating: 3` / `Rating: 5` |
+| c09_invoice_batch | records, arrays, aggregation function | `Batch total: 840` |
+| c10_shift_alerting | enums, records, case routing in loop | `billing: log`, `api: page`, `search: notify` |
+| c11_ticket_triage_extract | deterministic prompt build + typed extraction | structured output or `triage_failed` |
 
 ## 03-oracle: Into LLM Territory
 
@@ -89,6 +95,18 @@ testing. Each program increases oracle complexity gradually.
 | o06_ask_sequence | Multiple asks in a loop | `ask` + deterministic logic interleaved |
 | o07_ask_into_enum | Schema with enum field | `schema` with enum, `ask ... into` |
 | o08_fallback_chain | Cascading fallback | `ask ... else ask ... else literal` |
+
+## 04-benchmark: Performance-Focused Deterministic Workloads
+
+These are deterministic `t`/`c` style programs intended for rough throughput and
+bottleneck checks while avoiding oracle/network variability.
+
+| File | Focus | Expected output (key lines) |
+|------|-------|-----------------------------|
+| t29_bench_int_hotloop | tight integer loop + branch | `bench-int checksum=... final=...` |
+| t30_bench_function_calls | hot function-call path | `bench-calls acc=...` |
+| c12_bench_event_aggregation | records + for-in aggregation | `bench-events total=...` |
+| c13_bench_rule_routing | enum case dispatch + loops | `bench-routing score=...` |
 
 ### Running oracle tests with mock provider
 

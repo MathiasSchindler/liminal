@@ -1,0 +1,13 @@
+program TestSchemaValidationPath;
+
+types
+  schema TTicket
+    Summary: String[1..80];
+    Urgency: Integer[1..5];
+    RequiresHuman: Boolean;
+  end;
+
+begin
+  WriteLn(ask Oracle <- '{"Summary":"Printer jam","Urgency":3,"RequiresHuman":true}' into TTicket else 'fallback');
+  WriteLn(ask Oracle <- '{"Summary":"","Urgency":9,"RequiresHuman":"yes"}' into TTicket else 'fallback');
+end.

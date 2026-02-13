@@ -1,0 +1,30 @@
+program InvoiceBatch;
+
+types
+  TLine = record
+    Qty: Integer;
+    UnitPrice: Integer;
+  end;
+
+function LineTotal(L: TLine): Integer;
+begin
+  Result := L.Qty * L.UnitPrice;
+end;
+
+function BatchTotal(Lines: array of TLine): Integer;
+var
+  L: TLine;
+  Total: Integer;
+begin
+  Total := 0;
+  for L in Lines do
+    Total := Total + LineTotal(L);
+  Result := Total;
+end;
+
+var
+  Lines: array of TLine;
+begin
+  Lines := [{Qty: 2, UnitPrice: 120}, {Qty: 1, UnitPrice: 450}, {Qty: 5, UnitPrice: 30}];
+  WriteLn(f'Batch total: {BatchTotal(Lines)}');
+end.

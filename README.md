@@ -28,6 +28,9 @@ Highlights implemented:
 - `ask`, `ask ... into`, `consult` (mock/oracles abstraction)
 - Test suites and example programs
 
+Planned next major capability:
+- Ahead-of-time native compilation (`liminal compile ...`) is tracked as Milestone 19 in `implementation.md`.
+
 ## Quickstart
 ```bash
 cmake -B build -DCMAKE_BUILD_TYPE=Debug

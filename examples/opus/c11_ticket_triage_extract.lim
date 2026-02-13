@@ -1,0 +1,15 @@
+program TicketTriageExtract;
+
+types
+  schema TIntent
+    Category: String[1..20];
+    Urgency: Integer[1..10];
+    Summary: String[1..120];
+  end;
+
+var
+  Input: String;
+begin
+  Input := 'Customer cannot access account and needs urgent reset.';
+  WriteLn(ask Oracle <- f'Classify this support ticket: {Input}' into TIntent else 'triage_failed');
+end.

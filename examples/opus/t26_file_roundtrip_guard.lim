@@ -1,0 +1,13 @@
+program TestFileRoundtripGuard;
+var
+  Path, Content: String;
+begin
+  Path := 'tmp_report.txt';
+  WriteFile(Path, 'status=ok');
+  Content := ReadFile(Path);
+
+  if Content = 'status=ok' then
+    WriteLn('OK')
+  else
+    WriteLn('CORRUPTED');
+end.

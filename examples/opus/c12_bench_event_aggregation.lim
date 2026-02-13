@@ -1,0 +1,47 @@
+program BenchEventAggregation;
+// Benchmark focus: records + for-in + aggregation in repeated passes
+
+types
+  TEvent = record
+    DurationMs: Integer;
+    IsError: Boolean;
+  end;
+
+function PassScore(Events: array of TEvent): Integer;
+var
+  E: TEvent;
+  Score: Integer;
+begin
+  Score := 0;
+  for E in Events do
+  begin
+    if E.IsError then
+      Score := Score + (E.DurationMs * 3)
+    else
+      Score := Score + E.DurationMs;
+  end;
+  Result := Score;
+end;
+
+var
+  Events: array of TEvent;
+  I: Integer;
+  Total: Integer;
+begin
+  Events := [
+    {DurationMs: 12, IsError: False},
+    {DurationMs: 240, IsError: True},
+    {DurationMs: 35, IsError: False},
+    {DurationMs: 110, IsError: True},
+    {DurationMs: 9, IsError: False},
+    {DurationMs: 57, IsError: False},
+    {DurationMs: 320, IsError: True},
+    {DurationMs: 18, IsError: False}
+  ];
+
+  Total := 0;
+  for I := 1 to 25000 do
+    Total := Total + PassScore(Events);
+
+  WriteLn(f'bench-events total={Total}');
+end.

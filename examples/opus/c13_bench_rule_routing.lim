@@ -1,0 +1,42 @@
+program BenchRuleRouting;
+// Benchmark focus: enum case dispatch + record field access + loops
+
+types
+  TLevel = (Info, Warn, Critical);
+
+  TAlert = record
+    Service: String;
+    Level: TLevel;
+    DurationMs: Integer;
+  end;
+
+function RouteScore(A: TAlert): Integer;
+begin
+  case A.Level of
+    Info: Result := A.DurationMs;
+    Warn: Result := A.DurationMs * 2;
+    Critical: Result := A.DurationMs * 5;
+  end;
+end;
+
+var
+  Alerts: array of TAlert;
+  A: TAlert;
+  I: Integer;
+  Score: Integer;
+begin
+  Alerts := [
+    {Service: 'api', Level: Info, DurationMs: 8},
+    {Service: 'billing', Level: Warn, DurationMs: 20},
+    {Service: 'search', Level: Critical, DurationMs: 45},
+    {Service: 'auth', Level: Warn, DurationMs: 15},
+    {Service: 'worker', Level: Info, DurationMs: 5}
+  ];
+
+  Score := 0;
+  for I := 1 to 40000 do
+    for A in Alerts do
+      Score := Score + RouteScore(A);
+
+  WriteLn(f'bench-routing score={Score}');
+end.

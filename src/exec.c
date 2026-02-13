@@ -47,9 +47,14 @@ static Value v_copy(Value v){
   else if (v.kind==VRESULT) { if (v.res.ok) out = v_result_ok(v.res.text); else out = v_result_err(v.res.error);} 
   else if (v.kind==VOPTIONAL) { if (v.opt.is_some && v.opt.inner) out = v_optional_some(*v.opt.inner); else out = v_optional_none(); }
   else if (v.kind==VBOOL) out = v_bool(v.i);
-  // preserve ref shallow; copies should never free ref
-  out.ref = v.ref;
-  out.ref_interned = 1; // treat as interned to avoid free in copies
+  if (v.ref) {
+    out.ref = strdup(v.ref);
+    out.ref_interned = 0;
+    _allocs++;
+  } else {
+    out.ref = NULL;
+    out.ref_interned = 0;
+  }
   return out;
 }
 static void v_free(Value v){ if (v.ref && !v.ref_interned) { free(v.ref); _frees++; } if (v.kind==VSTRING){ if (v.owns && v.s) { free(v.s); _frees++; } } else if (v.kind==VRESULT){ if (v.res.text){ free(v.res.text); _frees++; } if (v.res.error){ free(v.res.error); _frees++; } } else if (v.kind==VOPTIONAL){ if (v.opt.inner){ v_free(*v.opt.inner); free(v.opt.inner);} } }
@@ -108,14 +113,18 @@ static void env_set(Env *env, const char *name, Value v){
   if (debug_exec()) fprintf(stderr,"[env_set] %s kind=%d i=%d ref=%s\n", name, v.kind, v.i, v.ref?v.ref:"<null>");
   Value vc = v_copy(v);
   if (v.kind==VSTRING && vc.s && !vc.owns) { vc.s = strdup(vc.s); vc.owns=1; _allocs++; }
-  if (v.ref && strchr(v.ref, '.')) { vc.ref = env_intern_ref(env, v.ref); vc.ref_interned = 1; }
+  if (vc.ref && strchr(vc.ref, '.')) {
+    if (!vc.ref_interned) { free(vc.ref); _frees++; }
+    vc.ref = env_intern_ref(env, v.ref);
+    vc.ref_interned = 1;
+  }
   env_ensure_base_ref(env, name);
   env_set_raw(env, name, vc);
 }
-static Value env_get_local(Env *env, const char *name){ Value *v = env_find(env,name); if (debug_exec()) fprintf(stderr,"[env_get_local] %s -> %s%s\n", name, v?"hit":"miss", v?"":""); if (v && debug_exec()) fprintf(stderr,"  val kind=%d i=%d ref=%s\n", v->kind, v->i, v->ref?v->ref:"<null>"); if (!v) return v_int(0); Value out=v_copy(*v); if (v->ref) { out.ref=strdup(v->ref); _allocs++; } out.ref_interned=0; return out; }
+static Value env_get_local(Env *env, const char *name){ Value *v = env_find(env,name); if (debug_exec()) fprintf(stderr,"[env_get_local] %s -> %s%s\n", name, v?"hit":"miss", v?"":""); if (v && debug_exec()) fprintf(stderr,"  val kind=%d i=%d ref=%s\n", v->kind, v->i, v->ref?v->ref:"<null>"); if (!v) return v_int(0); return v_copy(*v); }
 static Value env_get(Env *env, const char *name){
   Value *vloc = env_find(env, name);
-  if (vloc) { Value out=v_copy(*vloc); if (vloc->ref) { out.ref=strdup(vloc->ref); _allocs++; out.ref_interned=0; } return out; }
+  if (vloc) return v_copy(*vloc);
   const char *dot = strchr(name, '.');
   if (dot) {
     // base name before dot
@@ -126,9 +135,11 @@ static Value env_get(Env *env, const char *name){
       char buf[256]; snprintf(buf,sizeof(buf),"%s%s", basev.ref, dot);
       Value lv2 = env_get_local(env, buf);
       if (!(lv2.kind==VINT && lv2.i==0)) { v_free(basev); return lv2; }
+      v_free(lv2);
       if (env->parent) {
         Value pv2 = env_get(env->parent, buf);
         if (!(pv2.kind==VINT && pv2.i==0)) { v_free(basev); return pv2; }
+        v_free(pv2);
       }
     }
     v_free(basev);
@@ -205,7 +216,7 @@ static int execute_func(const IrProgram *prog, const IrFunc *f, Env *env, FILE *
     case IR_CONST_REAL: v_free(temps[ins->dest]); temps[ins->dest]=v_real(ins->f); break;
     case IR_CONST_STRING: v_free(temps[ins->dest]); temps[ins->dest]=v_string(ins->s?ins->s:""); break;
     case IR_CONST_OPTIONAL_NONE: v_free(temps[ins->dest]); temps[ins->dest]=v_optional_none(); break;
-    case IR_LOAD_VAR: v_free(temps[ins->dest]); temps[ins->dest]=env_get(env, ins->s); if (temps[ins->dest].ref) free(temps[ins->dest].ref); temps[ins->dest].ref=strdup(ins->s); temps[ins->dest].ref_interned=0; break;
+    case IR_LOAD_VAR: v_free(temps[ins->dest]); temps[ins->dest]=env_get(env, ins->s); if (temps[ins->dest].ref) { free(temps[ins->dest].ref); _frees++; } temps[ins->dest].ref=strdup(ins->s); temps[ins->dest].ref_interned=0; _allocs++; break;
     case IR_STORE_VAR: env_set(env, ins->s, temps[ins->arg1]); break;
     case IR_ADD: case IR_SUB: case IR_MUL: case IR_DIV: case IR_MOD: {
       Value a=temps[ins->arg1], b=temps[ins->arg2];
@@ -258,7 +269,9 @@ static int execute_func(const IrProgram *prog, const IrFunc *f, Env *env, FILE *
       FILE *fpy = fopen(path, "rb"); if(!fpy){ v_free(temps[ins->dest]); temps[ins->dest]=v_string(""); break; }
       fseek(fpy,0,SEEK_END); long len=ftell(fpy); rewind(fpy);
       char *buf = malloc(len+1); if(!buf){ fclose(fpy); v_free(temps[ins->dest]); temps[ins->dest]=v_string(""); break; }
-      fread(buf,1,len,fpy); buf[len]='\0'; fclose(fpy);
+      size_t read_n = fread(buf,1,(size_t)len,fpy);
+      buf[read_n]='\0';
+      fclose(fpy);
       v_free(temps[ins->dest]); temps[ins->dest]=v_string(buf); free(buf);
       break; }
     case IR_WRITE_FILE: {
@@ -423,8 +436,10 @@ static int execute_func(const IrProgram *prog, const IrFunc *f, Env *env, FILE *
       if (ins->s) {
         char buf[256]; snprintf(buf,sizeof(buf),"%s.%d", ins->s, idx);
         v_free(temps[ins->dest]); temps[ins->dest]=env_get(env, buf);
-        if (temps[ins->dest].ref) free(temps[ins->dest].ref);
+        if (temps[ins->dest].ref) { free(temps[ins->dest].ref); _frees++; }
         temps[ins->dest].ref = strdup(buf);
+        temps[ins->dest].ref_interned = 0;
+        _allocs++;
       } else {
         v_free(temps[ins->dest]); temps[ins->dest]=v_int(0);
       }
@@ -499,7 +514,7 @@ fail:
 
 int ir_execute(const IrProgram *prog, FILE *in, FILE *out, Oracle *oracle){ if(!prog||prog->funcs.len==0) return 1; Env env={0}; int rc= execute_func(prog, &prog->funcs.items[0], &env, in, out, oracle, NULL); env_free(&env); if (debug_exec()) fprintf(stderr,"[allocs] allocs=%zu frees=%zu\n", _allocs, _frees); return rc; }
 
-static char *read_file(const char *path, size_t *len_out){ FILE *f=fopen(path, "rb"); if(!f) return NULL; fseek(f,0,SEEK_END); long len=ftell(f); rewind(f); char *buf=malloc(len+1); fread(buf,1,len,f); buf[len]='\0'; fclose(f); if(len_out) *len_out=len; return buf; }
+static char *read_file(const char *path, size_t *len_out){ FILE *f=fopen(path, "rb"); if(!f) return NULL; fseek(f,0,SEEK_END); long len=ftell(f); rewind(f); char *buf=malloc(len+1); size_t read_n=fread(buf,1,(size_t)len,f); buf[read_n]='\0'; fclose(f); if(len_out) *len_out=read_n; return buf; }
 
 static Oracle *g_oracle = NULL;
 void exec_set_global_oracle(Oracle *o){ g_oracle = o; }

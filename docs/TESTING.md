@@ -7,6 +7,58 @@ cmake --build build
 (cd build && ctest --output-on-failure)
 ```
 
+## Opus smoke tests (t* and c* only)
+The advanced Opus oracle programs (`o*`) are excluded from this smoke set.
+
+Enable Opus smoke tests at configure time:
+```bash
+cmake -B build-opus -DCMAKE_BUILD_TYPE=Debug -DENABLE_OPUS_SMOKE_TESTS=ON
+cmake --build build-opus
+```
+
+Run only Opus tests:
+```bash
+(cd build-opus && ctest -L opus --output-on-failure)
+```
+
+Run only atomic or combined subsets:
+```bash
+(cd build-opus && ctest -L opus_atomic --output-on-failure)
+(cd build-opus && ctest -L opus_combined --output-on-failure)
+```
+
+## Opus benchmark-focused tests
+These benchmark programs are deterministic `t`/`c` workloads intended to expose
+performance bottlenecks in loops, function calls, record access, and case routing.
+
+Enable benchmark tests:
+```bash
+cmake -B build-opus-bench -DCMAKE_BUILD_TYPE=Release \
+  -DENABLE_OPUS_BENCHMARK_TESTS=ON
+cmake --build build-opus-bench
+```
+
+Run only benchmark tests:
+```bash
+(cd build-opus-bench && ctest -L opus_bench --output-on-failure)
+```
+
+Run min/median/max timing summary (5 runs per program):
+```bash
+./scripts/run_opus_benchmarks.sh
+```
+
+Custom build directory or run count:
+```bash
+./scripts/run_opus_benchmarks.sh ./build-opus-bench 7
+```
+
+For rough wall-clock comparisons across revisions:
+```bash
+/usr/bin/time -f '%E real, %U user, %S sys' \
+  ./build-opus-bench/src/liminal run examples/opus/t29_bench_int_hotloop.lim
+```
+
 ## Test Harness
 - Custom C harness in `tests/test_harness.[ch]`
 - Assertions: `ASSERT_TRUE`, `ASSERT_EQ_STR`, `ASSERT_CONTAINS`
